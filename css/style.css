@@ -1,3 +1,11 @@
+html[data-site="de"]:not(.i18n-ready) body { visibility: hidden; }
+
+/* [hidden] is overridden by .footer-cols { display: grid } */
+html[data-site="dk"] [data-footer-site="de"],
+html[data-site="de"] [data-footer-site="dk"],
+.footer-cols[hidden] {
+  display: none !important;
+}
 :root {
   --black: #000000;
   --ink: #111111;
@@ -695,6 +703,7 @@ dialog .btn { margin-top: 8px; }
 }
 @media (min-width: 800px) {
   .footer-cols { grid-template-columns: repeat(4, 1fr); }
+  html[data-site="de"] .footer-cols { grid-template-columns: repeat(3, 1fr); }
   .site-footer { padding: 128px 24px 56px; }
 }
 

@@ -9,21 +9,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
-    <script>
-    (function () {
-      try {
-        var q = new URLSearchParams(location.search).get("lang");
-        var lang = (q === "en" || q === "da") ? q : (localStorage.getItem("gavekort-lang") || "da");
-        if (lang !== "da" && lang !== "en") lang = "da";
-        document.documentElement.lang = lang;
-      } catch (e) {}
-    })();
-  </script>
+  <script src="/js/site.js"></script>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="thanks">
   <header class="site-header">
-    <a class="logo" href="https://chefmade.dk" target="_blank" rel="noopener noreferrer" aria-label="Chefmade">
+    <a class="logo" data-home href="https://chefmade.dk" target="_blank" rel="noopener noreferrer" aria-label="Chefmade">
       <img src="/assets/img/logo_black.svg" alt="chefmade">
     </a>
     <nav class="lang-switch" data-i18n-aria="lang.label" aria-label="Sprog">
@@ -44,10 +35,10 @@
   </main>
   <footer class="site-footer">
     <div class="footer-inner">
-      <a class="footer-logo" href="https://chefmade.dk" target="_blank" rel="noopener noreferrer" aria-label="Chefmade">
+      <a class="footer-logo" data-home href="https://chefmade.dk" target="_blank" rel="noopener noreferrer" aria-label="Chefmade">
         <img src="/assets/img/logo_white.svg" alt="Chefmade Logo">
       </a>
-      <div class="footer-cols">
+      <div class="footer-cols" data-footer-site="dk">
         <div class="footer-col">
           <h4 data-i18n="footer.contact">Tag kontakt i dag</h4>
           <ul>
@@ -89,6 +80,37 @@
           </ul>
         </div>
       </div>
+      <div class="footer-cols" data-footer-site="de" hidden>
+        <div class="footer-col">
+          <h4 data-i18n="deFooter.contact">Nehmen Sie noch heute Kontakt auf</h4>
+          <ul>
+            <li><a href="tel:+4915510915140">+49 15510 915140</a></li>
+            <li><a href="mailto:info@chefmade.dk">info@chefmade.dk</a></li>
+            <li>
+              <a class="footer-wa" href="https://wa.me/+4915510915140" target="_blank" rel="noopener noreferrer">
+                <img src="/assets/icons/whatsapp.svg" width="30" height="30" alt="">
+                Whatsapp: +49 15510 915140
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="deFooter.partners">Für Partner</h4>
+          <ul>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScXRZvC1jKGJkEIGXaZkec5YWye2v6dZmJaCijT3mylhuf1iw/viewform" target="_blank" rel="noopener noreferrer" data-i18n="deFooter.applyChef">Bewirb dich als Chef</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="deFooter.links">Verknüpfungen</h4>
+          <ul>
+            <li><a href="https://chefmade.de/private-dining" data-i18n="footer.restaurants">Restaurants &amp; Köche</a></li>
+            <li><a href="https://chefmade.de/lej-en-kok" data-i18n="footer.menus">Menüs</a></li>
+            <li><a href="/#koeb" data-i18n="deFooter.buy">Geschenkkarte kaufen</a></li>
+            <li><a href="https://chefmade.de/customer-ticket-list/" data-i18n="footer.support">Support</a></li>
+            <li><a href="https://chefmade.de/faq/" data-i18n="footer.faq">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
       <div class="footer-social">
         <a href="https://www.facebook.com/chefmadeDK" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
           <svg width="24" height="24" fill="currentColor" stroke="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
@@ -115,6 +137,8 @@
       el.textContent = String(new Date().getFullYear());
     });
   </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/pricing.js"></script>
   <script src="/js/i18n.js"></script>
 </body>
 </html>

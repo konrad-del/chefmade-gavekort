@@ -1,5 +1,4 @@
 (function (global) {
-  const STORAGE_KEY = "gavekort-lang";
   const STRINGS = {
     da: {
       "meta.title": "Chefmade Gavekort",
@@ -43,8 +42,8 @@
       "path.amount.body": "Vælg gavekortets værdi",
       "path.dinner.title": "Giv en hel middag",
       "path.dinner.body": "En komplet middag med privat kok til et bestemt antal gæster",
-      "amount.custom": "Vælg dit eget beløb (kr.)",
-      "amount.hint": "De fleste kokkes minimumshonorar starter fra 8.000 kr. Gavekortet kan bruges til hele middagen eller som et bidrag.",
+      "amount.custom": "Vælg dit eget beløb ({unit})",
+      "amount.hint": "De fleste kokkes minimumshonorar starter fra {amount}. Gavekortet kan bruges til hele middagen eller som et bidrag.",
       "guests.label": "Hvor mange gæster?",
       "guests.row": "Gæster",
       "guests.dec": "Færre gæster",
@@ -105,7 +104,12 @@
       "footer.terms": "Betingelser",
       "footer.privacy": "Privatliv",
       "footer.sitemap": "Sitemap",
-      "demo.message": "Tillykke med de 40 — vi ses til middag"
+      "demo.message": "Tillykke med de 40 — vi ses til middag",
+      "deFooter.contact": "Tag kontakt i dag",
+      "deFooter.partners": "For partnere",
+      "deFooter.applyChef": "Bliv Chefmade kok",
+      "deFooter.links": "Genveje",
+      "deFooter.buy": "Køb gavekort",
     },
     en: {
       "meta.title": "Chefmade Gift Card",
@@ -149,8 +153,8 @@
       "path.amount.body": "Choose the value of the voucher",
       "path.dinner.title": "Gift a whole dinner",
       "path.dinner.body": "A complete private chef dinner for a set number of guests",
-      "amount.custom": "Choose your own amount (DKK)",
-      "amount.hint": "Most chefs’ minimum fees start from 8.000 kr. Vouchers can be used for the whole or a part of the dinner.",
+      "amount.custom": "Choose your own amount ({unit})",
+      "amount.hint": "Most chefs’ minimum fees start from {amount}. Vouchers can be used for the whole or a part of the dinner.",
       "guests.label": "How many guests?",
       "guests.row": "Guests",
       "guests.dec": "Fewer guests",
@@ -211,25 +215,149 @@
       "footer.terms": "Terms",
       "footer.privacy": "Privacy",
       "footer.sitemap": "Sitemap",
-      "demo.message": "Happy 40th — let’s celebrate together"
+      "demo.message": "Happy 40th — let’s celebrate together",
+      "deFooter.contact": "Get in touch today",
+      "deFooter.partners": "For partners",
+      "deFooter.applyChef": "Apply as a chef",
+      "deFooter.links": "Links",
+      "deFooter.buy": "Buy a gift card",
+    },
+    de: {
+      "meta.title": "Chefmade Gutschein",
+      "meta.description": "Ein originelles, köstliches und stilvolles Geschenk. Einlösbar für alle Chefmade-Erlebnisse.",
+      "thanks.metaTitle": "Danke — Chefmade Gutschein",
+      "lang.label": "Sprache",
+      "hero.title": "Verschenke das Erlebnis von<br>Chefmade",
+      "hero.lede": "Ein originelles, köstliches und stilvolles Geschenk. Einlösbar für alle Chefmade-Erlebnisse.",
+      "hero.buy": "Gutschein kaufen",
+      "hero.how": "So funktioniert’s",
+      "hero.trustpilot": "<strong>5,0</strong> auf Trustpilot",
+      "hero.alt": "Eine behandschuhte Hand hält einen Chefmade-Gutschein",
+      "feature.1.title": "Ein Geschenk, alle Köche",
+      "feature.1.body": "Privates Dinner, Catering oder ein Kochkurs. Sie wählen selbst.",
+      "feature.2.title": "Verfällt nie",
+      "feature.2.body": "Keine Eile. Sie buchen, wenn die Zeit dafür reif ist.",
+      "feature.3.title": "Digital oder als Karte",
+      "feature.3.body": "Als PDF per E-Mail oder als gedruckte Karte per Post.",
+      "business.title": "Gutscheine für Unternehmen",
+      "business.body": "Zeigen Sie Mitarbeitenden und Kunden Ihre Wertschätzung mit einem Geschenk, das sich zu jedem Anlass leicht überreichen lässt.",
+      "business.cta": "Jetzt starten",
+      "business.subject": "Gutscheine für Unternehmen",
+      "business.alt": "Ein Stapel Chefmade-Gutscheine",
+      "faq.title": "Häufig gestellte Fragen",
+      "faq.q1": "Kann ich einen Gutschein in Geschäften kaufen?",
+      "faq.a1": "Derzeit nicht. Chefmade-Gutscheine kaufen Sie online hier auf dieser Seite.",
+      "faq.q2": "Was deckt der Gutschein ab?",
+      "faq.a2": "Der Gutschein kann für ein komplettes Dinner mit einem Privatkoch oder für jedes Chefmade-Erlebnis verwendet werden. Unten finden Sie unsere empfohlenen Beträge, wenn Sie ein vollständiges Dinner verschenken möchten – der endgültige Preis wird jedoch festgesetzt und hängt vom gewählten Koch ab.",
+      "faq.q3": "Läuft der Gutschein ab?",
+      "faq.a4": "Nach Abschluss der Zahlung erhalten Sie einen Gutscheincode. Geben Sie ihn beim Checkout ein, dann wird der Betrag automatisch abgezogen – oder teilen Sie uns den Code und den Betrag mit, dann helfen wir Ihnen, das passende Erlebnis zu finden.",
+      "faq.a3": "Nein. Chefmade-Gutscheine verfallen nie.",
+      "faq.q4": "Wie löse ich meinen Chefmade-Gutschein ein?",
+      "faq.q5": "Welche Zahlungsmethoden akzeptieren Sie?",
+      "faq.a5": "Die Zahlung erfolgt sicher über Stripe. Karten wie Visa und Mastercard werden akzeptiert. Die genauen Methoden beim Checkout hängen von der Stripe-Einrichtung von Chefmade ab.",
+      "faq.q6": "Kann ich Gutscheine in größerer Stückzahl für Unternehmen kaufen?",
+      "faq.a6": "Ja. Sie können Gutscheine hier auf der Seite kaufen oder Chefmade kontaktieren, wenn Sie eine größere Unternehmensbestellung benötigen.",
+      "checkout.title": "Verschenke ein unvergessliches Dinner",
+      "checkout.sub": "Einlösbar für alle Köche, Menüs und Termine.",
+      "step.1": "Was möchten Sie verschenken?",
+      "path.amount.title": "Einen Betrag verschenken",
+      "path.amount.body": "Wählen Sie den Wert des Gutscheins",
+      "path.dinner.title": "Ein komplettes Dinner verschenken",
+      "path.dinner.body": "Ein vollständiges Dinner mit Privatkoch für eine bestimmte Anzahl an Gästen",
+      "amount.custom": "Wählen Sie Ihren eigenen Betrag ({unit})",
+      "amount.hint": "Das Mindesthonorar der meisten Köche beginnt bei {amount}. Der Gutschein kann für das gesamte Dinner oder als Beitrag verwendet werden.",
+      "guests.label": "Wie viele Gäste?",
+      "guests.row": "Gäste",
+      "guests.dec": "Weniger Gäste",
+      "guests.inc": "Mehr Gäste",
+      "style.label": "Stil wählen",
+      "style.pp": "pro Pers.",
+      "style.total": "insgesamt",
+      "step.2": "Wer ist die glückliche Person?",
+      "form.recipient": "Name der Empfängerin oder des Empfängers",
+      "form.message": "Ihre persönliche Nachricht",
+      "step.3": "Ihre Angaben",
+      "form.buyerName": "Ihr Name",
+      "form.buyerEmail": "Ihre E-Mail-Adresse",
+      "form.buyerPhone": "Ihre Telefonnummer",
+      "delivery.label": "Wie soll geliefert werden?",
+      "delivery.digital.title": "Digital",
+      "delivery.digital.body": "Wir senden Ihnen eine PDF zum Selbstausdrucken",
+      "delivery.physical.title": "Physisch",
+      "delivery.physical.body": "Wir kontaktieren Sie, um die Lieferung zu vereinbaren. Der Versand ist kostenlos.",
+      "pay.continue": "Weiter zur Zahlung",
+      "pay.trustpilot": "5,0 Trustpilot",
+      "pay.expires": "Verfällt nie",
+      "pay.anyChef": "Einlösbar bei allen Köchen",
+      "preview.label": "VORSCHAU",
+      "preview.kicker": "GUTSCHEIN",
+      "preview.for": "FÜR",
+      "preview.someone": "Eine besondere Person",
+      "preview.voucher": "Gutschein",
+      "preview.dinner": "{style} für {count} {guestWord}",
+      "preview.guestOne": "Gast",
+      "preview.guestMany": "Gäste",
+      "dialog.close": "Schließen",
+      "dialog.chooseAmount": "Bitte wählen Sie einen Betrag oder die Anzahl der Gäste und einen Stil.",
+      "dialog.amountRange": "Bitte wählen Sie einen Betrag zwischen {min} und {max}.",
+      "dialog.noLinkTitle": "Zahlungslink ist noch nicht verbunden",
+      "dialog.noLinkBody": "Die Vorschau ist bereit, aber es ist noch kein Stripe-Zahlungslink hinterlegt.",
+      "thanks.kicker": "CHEFMADE GUTSCHEIN",
+      "thanks.title": "Danke",
+      "thanks.p1": "Wir haben Ihre Zahlung erhalten. Stripe sendet eine Quittung an die E-Mail-Adresse, die Sie beim Checkout verwendet haben.",
+      "thanks.p2": "Wenn Sie einen digitalen Gutschein gewählt haben, senden wir eine PDF, die Sie ausdrucken oder weiterleiten können. Bei physischer Lieferung kontaktieren wir Sie, um die Details zu vereinbaren. Der Versand ist kostenlos. Ihr Gutschein verfällt nie.",
+      "thanks.back": "Zurück zum Gutschein",
+      "footer.contact": "Nehmen Sie noch heute Kontakt auf",
+      "footer.inspiration": "Inspiration",
+      "footer.erhverv": "Unternehmen",
+      "footer.birthday": "Geburtstag",
+      "footer.wedding": "Hochzeit",
+      "footer.confirmation": "Konfirmation",
+      "footer.social": "Geselliges Dinner",
+      "footer.easter": "Ostern-Dinner",
+      "footer.partners": "Für Partner",
+      "footer.becomeChef": "Werde Chefmade-Koch",
+      "footer.shortcuts": "Verknüpfungen",
+      "footer.restaurants": "Restaurants & Köche",
+      "footer.menus": "Menüs",
+      "footer.buy": "Geschenkkarte kaufen",
+      "footer.support": "Support",
+      "footer.faq": "FAQ",
+      "footer.terms": "Bedingungen",
+      "footer.privacy": "Privatsphäre",
+      "footer.sitemap": "Sitemap",
+      "deFooter.contact": "Nehmen Sie noch heute Kontakt auf",
+      "deFooter.partners": "Für Partner",
+      "deFooter.applyChef": "Bewirb dich als Chef",
+      "deFooter.links": "Verknüpfungen",
+      "deFooter.buy": "Geschenkkarte kaufen",
+      "demo.message": "Herzlichen Glückwunsch zum 40. — wir sehen uns zum Dinner"
     }
   };
 
   const listeners = [];
-  let lang = "da";
+  const site = (global.GavekortSite && global.GavekortSite.site) || global.GAVEKORT_SITE || { id: "dk", defaultLang: "da", langs: ["da", "en"] };
+  const DEFAULT_LANG = site.defaultLang || "da";
+  const ALLOWED = site.langs || [DEFAULT_LANG, "en"];
+  const STORAGE_KEY = (global.GavekortSite && global.GavekortSite.storageKey && global.GavekortSite.storageKey()) || ("gavekort-lang-" + (site.id || "dk"));
+  let lang = DEFAULT_LANG;
 
   function normalize(value) {
-    return value === "en" || value === "da" ? value : "da";
+    return ALLOWED.indexOf(value) !== -1 ? value : DEFAULT_LANG;
   }
 
   function readLang() {
     try {
       const q = new URLSearchParams(location.search).get("lang");
-      if (q === "en" || q === "da") return q;
+      if (ALLOWED.indexOf(q) !== -1) return q;
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored === "en" || stored === "da") return stored;
+      if (ALLOWED.indexOf(stored) !== -1) return stored;
+      if (site.id === "dk") {
+        const legacy = localStorage.getItem("gavekort-lang");
+        if (legacy === "en" || legacy === "da") return legacy;
+      }
     } catch (e) {}
-    return "da";
+    return DEFAULT_LANG;
   }
 
   function persist(next, updateUrl) {
@@ -245,8 +373,9 @@
   }
 
   function t(key, vars) {
-    const table = STRINGS[lang] || STRINGS.da;
-    let value = table[key] != null ? table[key] : (STRINGS.da[key] || key);
+    const table = STRINGS[lang] || STRINGS[DEFAULT_LANG] || STRINGS.da;
+    const fallback = STRINGS[DEFAULT_LANG] || STRINGS.da;
+    let value = table[key] != null ? table[key] : (fallback[key] != null ? fallback[key] : (STRINGS.en[key] || key));
     if (vars) {
       Object.keys(vars).forEach((k) => {
         value = value.replace(new RegExp("\\{" + k + "\\}", "g"), String(vars[k]));
@@ -255,13 +384,35 @@
     return value;
   }
 
+  function formatVarsFor(key) {
+    const siteCfg = global.GAVEKORT_SITE || {};
+    const P = global.GavekortPricing;
+    if (key === "amount.hint") {
+      const amount = siteCfg.hintMinAmount || 0;
+      const formatted = P && P.formatAmount ? P.formatAmount(amount, siteCfg.currency || "dkk") : String(amount);
+      return { amount: formatted };
+    }
+    if (key === "amount.custom") {
+      const units = siteCfg.currencyUnit || {};
+      const unit = units[lang] || units[DEFAULT_LANG] || (siteCfg.currency === "eur" ? "€" : "kr.");
+      return { unit: unit };
+    }
+    return null;
+  }
+
   function apply() {
     document.documentElement.lang = lang;
+    document.documentElement.setAttribute("data-site", site.id || "dk");
+    const text = (el, attr) => {
+      const key = el.getAttribute(attr);
+      const vars = formatVarsFor(key);
+      return vars ? t(key, vars) : t(key);
+    };
     document.querySelectorAll("[data-i18n]").forEach((el) => {
-      el.textContent = t(el.getAttribute("data-i18n"));
+      el.textContent = text(el, "data-i18n");
     });
     document.querySelectorAll("[data-i18n-html]").forEach((el) => {
-      el.innerHTML = t(el.getAttribute("data-i18n-html"));
+      el.innerHTML = text(el, "data-i18n-html");
     });
     document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
       el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria")));
@@ -276,15 +427,14 @@
     document.title = t(titleKey);
     const desc = document.querySelector('meta[name="description"]');
     if (desc) desc.setAttribute("content", t("meta.description"));
+    const mailto = (site.businessMailto || (global.GAVEKORT_SITE && global.GAVEKORT_SITE.businessMailto) || "info@chefmade.dk");
     document.querySelectorAll("[data-i18n-mailto-subject]").forEach((el) => {
-      el.setAttribute("href", "mailto:info@chefmade.dk?subject=" + encodeURIComponent(t("business.subject")));
+      el.setAttribute("href", "mailto:" + mailto + "?subject=" + encodeURIComponent(t("business.subject")));
     });
-    document.querySelectorAll(".lang-switch a[data-lang]").forEach((a) => {
-      const active = a.getAttribute("data-lang") === lang;
-      a.classList.toggle("is-active", active);
-      if (active) a.setAttribute("aria-current", "true");
-      else a.removeAttribute("aria-current");
-    });
+    if (global.GavekortSite && global.GavekortSite.applyChrome) {
+      global.GavekortSite.applyChrome();
+    }
+    document.documentElement.classList.add("i18n-ready");
   }
 
   function setLang(next, updateUrl) {
@@ -302,11 +452,11 @@
   document.documentElement.lang = lang;
 
   function bindSwitcher() {
-    document.querySelectorAll(".lang-switch a[data-lang]").forEach((a) => {
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        setLang(a.getAttribute("data-lang"), true);
-      });
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest && e.target.closest(".lang-switch a[data-lang]");
+      if (!a) return;
+      e.preventDefault();
+      setLang(a.getAttribute("data-lang"), true);
     });
   }
 

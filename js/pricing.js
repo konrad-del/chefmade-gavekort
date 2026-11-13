@@ -45,6 +45,12 @@
 
   /* Suggested custom amounts, derived from typical sheet totals — not official denominations. */
   const SUGGESTED_AMOUNTS_DKK = [3600, 5000, 8000, 12000];
+  /* Suggested EUR amounts, derived from typical sheet totals — not official denominations. */
+  const SUGGESTED_AMOUNTS_EUR = [480, 800, 1200, 2000];
+
+  function suggestedAmounts(currency) {
+    return currency === "eur" ? SUGGESTED_AMOUNTS_EUR : SUGGESTED_AMOUNTS_DKK;
+  }
 
   function bandFor(styleId, guests) {
     const bands = BANDS[styleId];
@@ -90,6 +96,8 @@
     DEFAULT_GUESTS,
     DEFAULT_STYLE,
     SUGGESTED_AMOUNTS_DKK,
+    SUGGESTED_AMOUNTS_EUR,
+    suggestedAmounts,
     bandFor,
     quote,
     formatAmount

@@ -1,8 +1,14 @@
 (function () {
   const P = window.GavekortPricing;
   const cfg = window.GAVEKORT_CONFIG || {};
+  const site = window.GAVEKORT_SITE || {};
   const I = window.GavekortI18n;
   const t = (key, vars) => (I && I.t) ? I.t(key, vars) : key;
+  const currency = site.currency || cfg.currency || "dkk";
+
+  function money(amount) {
+    return P.formatAmount(amount, currency);
+  }
 
   const state = {
     path: "dinner", // "dinner" | "amount"
@@ -48,9 +54,9 @@
     if (state.path === "amount") {
       const amount = Number(state.customAmount);
       if (!amount || amount <= 0) return null;
-      return { total: amount, perPerson: null, guests: null, styleId: null, currency: "dkk", custom: true };
+      return { total: amount, perPerson: null, guests: null, styleId: null, currency: currency, custom: true };
     }
-    return P.quote(state.styleId, state.guests, "dkk");
+    return P.quote(state.styleId, state.guests, currency);
   }
 
   function styleName(id) {
@@ -60,14 +66,14 @@
 
   function renderStyles() {
     els.styleList.innerHTML = P.STYLES.map((s) => {
-      const q = P.quote(s.id, state.guests, "dkk");
+      const q = P.quote(s.id, state.guests, currency);
       const selected = s.id === state.styleId;
       return `<label class="style-row ${selected ? "is-selected" : ""}">
         <input type="radio" name="style" value="${s.id}" ${selected ? "checked" : ""}>
         <span class="style-name">${s.name}</span>
         <span class="style-price">
-          <span class="pp">${P.formatAmount(q.perPerson, "dkk")} ${t("style.pp")}</span>
-          <span class="tot">${P.formatAmount(q.total, "dkk")} ${t("style.total")}</span>
+          <span class="pp">${money(q.perPerson)} ${t("style.pp")}</span>
+          <span class="tot">${money(q.total)} ${t("style.total")}</span>
         </span>
       </label>`;
     }).join("");
@@ -82,9 +88,9 @@
 
   function renderAmountChips() {
     if (!els.amountChips) return;
-    els.amountChips.innerHTML = P.SUGGESTED_AMOUNTS_DKK.map((n) => {
+    els.amountChips.innerHTML = (P.suggestedAmounts ? P.suggestedAmounts(currency) : P.SUGGESTED_AMOUNTS_DKK).map((n) => {
       const selected = Number(state.customAmount) === n;
-      return `<button type="button" class="chip ${selected ? "is-selected" : ""}" data-amount="${n}">${P.formatAmount(n, "dkk")}</button>`;
+      return `<button type="button" class="chip ${selected ? "is-selected" : ""}" data-amount="${n}">${money(n)}</button>`;
     }).join("");
     els.amountChips.querySelectorAll("button").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -105,7 +111,7 @@
     els.previewMessage.hidden = !msg;
 
     if (q) {
-      els.previewAmount.textContent = P.formatAmount(q.total, "dkk");
+      els.previewAmount.textContent = money(q.total);
       els.previewAmount.hidden = false;
       if (q.custom) {
         els.previewMeta.textContent = t("preview.voucher");
@@ -114,7 +120,7 @@
         els.previewMeta.textContent = t("preview.dinner", { style: styleName(q.styleId), count: q.guests, guestWord });
       }
       els.previewMeta.hidden = false;
-      els.payLabel.textContent = `${t("pay.continue")} · ${P.formatAmount(q.total, "dkk")}`;
+      els.payLabel.textContent = `${t("pay.continue")} · ${money(q.total)}`;
       els.payBtn.disabled = false;
     } else {
       els.previewAmount.hidden = true;
@@ -145,7 +151,7 @@
 
   function buildReference(q) {
     const parts = [
-      "gk",
+      site.referencePrefix || "gk",
       state.path,
       q.custom ? "custom" : state.styleId,
       q.custom ? "" : String(state.guests),
@@ -180,7 +186,7 @@
 
   function collectOrderPayload(q) {
     return {
-      _subject: "New gift card order — " + P.formatAmount(q.total, "dkk"),
+      _subject: "New gift card order — " + money(q.total),
       _template: "table",
       _captcha: "false",
       _honey: "",
@@ -188,7 +194,7 @@
       gift_type: q.custom ? "Gift an amount" : "Gift a whole dinner",
       guests: q.custom ? "—" : String(state.guests),
       style: q.custom ? "—" : styleName(q.styleId),
-      amount: P.formatAmount(q.total, "dkk"),
+      amount: money(q.total),
       recipient_name: state.recipient.trim() || "—",
       personal_message: state.message.trim() || "—",
       buyer_name: state.buyerName.trim() || "—",
@@ -219,10 +225,10 @@
       openDialog("<p>" + t("dialog.chooseAmount") + "</p>");
       return;
     }
-    const min = cfg.minCustomAmountDkk || 0;
-    const max = cfg.maxCustomAmountDkk || 0;
+    const min = site.minCustomAmount || cfg.minCustomAmount || cfg.minCustomAmountDkk || 0;
+    const max = site.maxCustomAmount || cfg.maxCustomAmount || cfg.maxCustomAmountDkk || 0;
     if (state.path === "amount" && (q.total < min || (max && q.total > max))) {
-      openDialog("<p>" + t("dialog.amountRange", { min: P.formatAmount(min, "dkk"), max: P.formatAmount(max, "dkk") }) + "</p>");
+      openDialog("<p>" + t("dialog.amountRange", { min: money(min), max: money(max) }) + "</p>");
       return;
     }
 
@@ -234,7 +240,7 @@
         <h3>${t("dialog.noLinkTitle")}</h3>
         <p>${t("dialog.noLinkBody")}</p>
         <dl class="summary">
-          <dt>Amount</dt><dd>${P.formatAmount(q.total, "dkk")}</dd>
+          <dt>Amount</dt><dd>${money(q.total)}</dd>
           <dt>Type</dt><dd>${q.custom ? t("path.amount.title") : `${styleName(q.styleId)} · ${q.guests} ${q.guests === 1 ? t("preview.guestOne") : t("preview.guestMany")}`}</dd>
           <dt>For</dt><dd>${state.recipient.trim() || "—"}</dd>
           <dt>Message</dt><dd>${state.message.trim() || "—"}</dd>
@@ -249,7 +255,9 @@
     url.searchParams.set("prefilled_amount", String(Math.round(q.total * 100)));
     if (email) url.searchParams.set("prefilled_email", email);
     url.searchParams.set("client_reference_id", buildReference(q));
-    if (I && I.getLang() === "da") url.searchParams.set("locale", "da");
+    const localeMap = site.stripeLocale || {};
+    const locale = I && localeMap[I.getLang()];
+    if (locale) url.searchParams.set("locale", locale);
 
     const payload = collectOrderPayload(q);
     els.payBtn.disabled = true;
