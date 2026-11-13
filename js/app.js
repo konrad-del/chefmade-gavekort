@@ -270,6 +270,12 @@
   }
 
   function bind() {
+    if (els.customAmount) {
+      const min = site.minCustomAmount || cfg.minCustomAmount || 0;
+      const max = site.maxCustomAmount || cfg.maxCustomAmount || 0;
+      if (min) els.customAmount.min = String(min);
+      if (max) els.customAmount.max = String(max);
+    }
     els.pathInputs().forEach((input) => {
       input.addEventListener("change", () => setPath(input.value));
     });

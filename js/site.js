@@ -27,11 +27,9 @@
       langs: ["de", "en"],
       currency: "eur",
       currencyUnit: { de: "€", en: "€" },
-      paymentLinkUrl: "https://buy.stripe.com/7sY4gzbYVcEtblnfQEaMV1C",
-      /* PLACEHOLDER: confirm EUR custom minimum with Konrad. */
-      minCustomAmount: 50,
+      paymentLinkUrl: "https://buy.stripe.com/eVqeVdbYV1ZP9df1ZOaMV1D",
+      minCustomAmount: 200,
       maxCustomAmount: 5000,
-      /* PLACEHOLDER: EUR figure for “Most chefs’ minimum fees…” is unknown. */
       hintMinAmount: 1000,
       successPath: "tak.html",
       homeUrl: "https://chefmade.de",
@@ -64,7 +62,18 @@
     return "gavekort-lang-" + site.id;
   }
 
+
+  function applyImages() {
+    document.querySelectorAll("[data-src-de]").forEach((el) => {
+      const next = site.id === "de"
+        ? el.getAttribute("data-src-de")
+        : (el.getAttribute("data-src-dk") || el.getAttribute("src"));
+      if (next && el.getAttribute("src") !== next) el.setAttribute("src", next);
+    });
+  }
+
   function applyChrome() {
+    applyImages();
     const I = global.GavekortI18n;
     const lang = (I && I.getLang && I.getLang()) || document.documentElement.lang || site.defaultLang;
     document.documentElement.setAttribute("data-site", site.id);
@@ -122,6 +131,13 @@
     document.documentElement.setAttribute("data-early-lang", lang);
   } catch (e) {}
 
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyImages);
+  } else {
+    applyImages();
+  }
+
   global.GAVEKORT_SITE = site;
   global.GAVEKORT_CONFIG = {
     currency: site.currency,
@@ -135,6 +151,7 @@
     detectSiteId: detectSiteId,
     storageKey: storageKey,
     applyChrome: applyChrome,
+    applyImages: applyImages,
     SITES: SITES
   };
 })(window);
