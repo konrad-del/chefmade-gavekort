@@ -1,15 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chefmade Gift Card</title>
-  <meta name="description" content="An original, tasty and classy present. To be used for any type of Chefmade experience.">
+  <title>Chefmade Gavekort</title>
+  <meta name="description" content="En original, lækker og stilfuld gave. Kan bruges til alle Chefmade-oplevelser.">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get("lang");
+        var lang = (q === "en" || q === "da") ? q : (localStorage.getItem("gavekort-lang") || "da");
+        if (lang !== "da" && lang !== "en") lang = "da";
+        document.documentElement.lang = lang;
+      } catch (e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -17,43 +27,49 @@
     <a class="logo" href="https://chefmade.dk" target="_blank" rel="noopener noreferrer" aria-label="Chefmade">
       <img src="assets/img/logo_black.svg" alt="chefmade">
     </a>
+    <nav class="lang-switch" data-i18n-aria="lang.label" aria-label="Sprog">
+      <a href="?lang=da" data-lang="da">DA</a>
+      <span class="lang-sep" aria-hidden="true">|</span>
+      <a href="?lang=en" data-lang="en">EN</a>
+    </nav>
+
   </header>
 
   <section class="hero" id="top">
     <div class="hero-inner">
       <div class="hero-copy">
-        <h1>Give the gift of<br>Chefmade</h1>
-        <p class="lede">An original, tasty and classy present. To be used for any type of Chefmade experience</p>
+        <h1 data-i18n-html="hero.title">Giv gaven af<br>Chefmade</h1>
+        <p class="lede" data-i18n="hero.lede">En original, lækker og stilfuld gave. Kan bruges til alle Chefmade-oplevelser.</p>
         <div class="hero-cta">
-          <a class="btn btn-green" href="#koeb">Buy a gift card</a>
-          <a class="hero-how" href="#faq">How it works</a>
+          <a class="btn btn-green" href="#koeb" data-i18n="hero.buy">Køb gavekort</a>
+          <a class="hero-how" href="#faq" data-i18n="hero.how">Sådan virker det</a>
         </div>
         <a class="hero-tp" href="https://www.trustpilot.com/review/www.chefmade.dk" target="_blank" rel="noopener noreferrer">
         <span class="tp-stars" aria-hidden="true">
           <span></span><span></span><span></span><span></span><span></span>
         </span>
-          <span><strong>5.0</strong> on Trustpilot</span>
+          <span data-i18n-html="hero.trustpilot"><strong>5,0</strong> på Trustpilot</span>
         </a>
       </div>
       <div class="hero-visual">
-        <img src="assets/img/hero-card.png" alt="A gloved hand holding a Chefmade gift card">
+        <img src="assets/img/hero-card.webp" data-i18n-alt="hero.alt" alt="En handske, der holder et Chefmade-gavekort">
       </div>
     </div>
     <ul class="features">
       <li>
         <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></svg></span>
-        <h3>One gift, every chef</h3>
-        <p>Private dinners, catering or a cooking class. They choose.</p>
+        <h3 data-i18n="feature.1.title">Én gave, alle kokke</h3>
+        <p data-i18n="feature.1.body">Privat middag, catering eller et kokkekursus. De vælger selv.</p>
       </li>
       <li>
         <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"/></svg></span>
-        <h3>Never expires</h3>
-        <p>No rush. They book whenever the moment is right.</p>
+        <h3 data-i18n="feature.2.title">Udløber aldrig</h3>
+        <p data-i18n="feature.2.body">Ingen travlhed. De booker, når tiden er den rette.</p>
       </li>
       <li>
         <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg></span>
-        <h3>Digital or printed</h3>
-        <p>Sent as a PDF, or as a printed card by post.</p>
+        <h3 data-i18n="feature.3.title">Digitalt eller fysisk</h3>
+        <p data-i18n="feature.3.body">Sendes som PDF, eller som et trykt kort med posten.</p>
       </li>
     </ul>
   </section>
@@ -62,12 +78,12 @@
     <div class="section-inner">
       <div class="business-panel">
         <div class="business-copy">
-          <h2>Gift cards for business</h2>
-          <p>Show your appreciation for employees and customers with a gift that's easy to give for any occasion.</p>
-          <a class="btn btn-dark" href="mailto:info@chefmade.dk?subject=Business%20gift%20cards">Get started</a>
+          <h2 data-i18n="business.title">Gavekort til erhverv</h2>
+          <p data-i18n="business.body">Vis din taknemmelighed over for medarbejdere og kunder med en gave, der er nem at give ved enhver lejlighed.</p>
+          <a class="btn btn-dark" data-i18n-mailto-subject data-i18n="business.cta" href="mailto:info@chefmade.dk?subject=Gavekort%20til%20erhverv">Kom i gang</a>
         </div>
         <div class="business-visual">
-          <img src="assets/img/business-cards.png" alt="A stack of Chefmade gift cards">
+          <img src="assets/img/business-cards.webp" data-i18n-alt="business.alt" alt="En stak Chefmade-gavekort">
         </div>
       </div>
     </div>
@@ -75,31 +91,31 @@
 
   <section class="section faq" id="faq">
     <div class="section-inner">
-      <h2>Frequently asked questions</h2>
+      <h2 data-i18n="faq.title">Ofte stillede spørgsmål</h2>
       <div class="faq-list">
         <div class="faq-item">
-          <button type="button">Can I buy a gift card in stores?</button>
-          <div class="faq-a">Not at the moment. Chefmade gift cards are bought online on this page.</div>
+          <button type="button" data-i18n="faq.q1">Kan jeg købe et gavekort i butikker?</button>
+          <div class="faq-a" data-i18n="faq.a1">Ikke i øjeblikket. Chefmade-gavekort købes online her på siden.</div>
         </div>
         <div class="faq-item">
-          <button type="button">What is covered by the gift card?</button>
-          <div class="faq-a">Gift cards can be used toward a full private-chef dinner or any Chefmade Experience. Check our recommended amounts below to gift a complete dinner, though final pricing is set and depends on the selected chef.</div>
+          <button type="button" data-i18n="faq.q2">Hvad dækker gavekortet?</button>
+          <div class="faq-a" data-i18n="faq.a2">Gavekortet kan bruges til en fuld middag med privat kok eller til enhver Chefmade-oplevelse. Se vores anbefalede beløb nedenfor, hvis du vil give en komplet middag – den endelige pris fastsættes dog og afhænger af den valgte kok.</div>
         </div>
         <div class="faq-item">
-          <button type="button">Do gift cards expire?</button>
-          <div class="faq-a">No. Chefmade gift cards never expire.</div>
+          <button type="button" data-i18n="faq.q3">Udløber gavekortet?</button>
+          <div class="faq-a" data-i18n="faq.a3">Nej. Chefmade-gavekort udløber aldrig.</div>
         </div>
         <div class="faq-item">
-          <button type="button">How to apply my Chefmade gift card?</button>
-          <div class="faq-a">After payment, you'll receive a voucher code. Simply enter it at checkout to apply the balance automatically, or share the code and value with our team for help finding the right experience.</div>
+          <button type="button" data-i18n="faq.q4">Hvordan indløser jeg mit Chefmade-gavekort?</button>
+          <div class="faq-a" data-i18n="faq.a4">Når betalingen er gennemført, modtager du en gavekode. Indtast den ved checkout, så trækkes beløbet automatisk – eller del koden og beløbet med os, så hjælper vi med at finde den rette oplevelse.</div>
         </div>
         <div class="faq-item">
-          <button type="button">What payment methods do you accept to buy gift cards?</button>
-          <div class="faq-a">Payment is handled securely by Stripe. Cards such as Visa and Mastercard are accepted. The exact methods shown at checkout depend on Stripe’s setup for Chefmade.</div>
+          <button type="button" data-i18n="faq.q5">Hvilke betalingsmetoder accepterer I?</button>
+          <div class="faq-a" data-i18n="faq.a5">Betalingen sker sikkert via Stripe. Kort som Visa og Mastercard accepteres. De præcise metoder ved checkout afhænger af Chefmades opsætning hos Stripe.</div>
         </div>
         <div class="faq-item">
-          <button type="button">Can I buy gift cards in bulk for a business?</button>
-          <div class="faq-a">Yes. You can buy cards on this page, or get in touch with the Chefmade team if you need a larger business order.</div>
+          <button type="button" data-i18n="faq.q6">Kan jeg købe gavekort i større antal til erhverv?</button>
+          <div class="faq-a" data-i18n="faq.a6">Ja. Du kan købe gavekort her på siden, eller kontakte Chefmade, hvis du har brug for en større erhvervsordre.</div>
         </div>
       </div>
     </div>
@@ -107,8 +123,8 @@
 
   <section class="checkout" id="koeb">
     <div class="checkout-intro">
-      <h2>Give a dinner to remember</h2>
-      <p>To be used for any chef, menu &amp; date.</p>
+      <h2 data-i18n="checkout.title">Giv en middag, man husker</h2>
+      <p data-i18n="checkout.sub">Kan bruges til alle kokke, menuer og datoer.</p>
     </div>
 
     <div class="checkout-layout">
@@ -116,7 +132,7 @@
         <div class="card">
           <div class="step-title">
             <span class="step-num">1</span>
-            <h3>What would you like to gift?</h3>
+            <h3 data-i18n="step.1">Hvad vil du gerne give?</h3>
           </div>
           <div class="path-grid">
             <label class="path-card" data-path="amount">
@@ -124,45 +140,45 @@
               <span class="path-icon" aria-hidden="true">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.5C15 8.1 13.7 7.5 12 7.5S9 8.2 9 9.7c0 3 6 2 6 5 0 1.5-1.4 2.3-3 2.3s-3-.7-3.2-2" stroke-linecap="round"/></svg>
               </span>
-              <h4>Gift an amount</h4>
-              <p>Choose the value of the voucher</p>
+              <h4 data-i18n="path.amount.title">Giv et beløb</h4>
+              <p data-i18n="path.amount.body">Vælg gavekortets værdi</p>
             </label>
             <label class="path-card is-selected" data-path="dinner">
               <input type="radio" name="gift-path" value="dinner" checked>
               <span class="path-icon" aria-hidden="true">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 14c0-5 3-8 7-8s7 3 7 8H5z"/><path d="M4 17h16M12 6V4"/></svg>
               </span>
-              <h4>Gift a whole dinner</h4>
-              <p>A complete private chef dinner for a set number of guests</p>
+              <h4 data-i18n="path.dinner.title">Giv en hel middag</h4>
+              <p data-i18n="path.dinner.body">En komplet middag med privat kok til et bestemt antal gæster</p>
             </label>
           </div>
 
           <div id="panel-amount" hidden>
             <div class="chip-row" id="amount-chips"></div>
             <div class="custom-field floating field">
-              <label for="custom-amount">Choose your own amount (DKK)</label>
+              <label for="custom-amount" data-i18n="amount.custom">Vælg dit eget beløb (kr.)</label>
               <input class="input" id="custom-amount" type="number" inputmode="numeric" min="500" step="100" placeholder="">
             </div>
             <div class="hint">
               <span aria-hidden="true">💡</span>
-              <span>Most chefs’ minimum fees start from 8.000 kr. Vouchers can be used for the whole or a part of the dinner.</span>
+              <span data-i18n="amount.hint">De fleste kokkes minimumshonorar starter fra 8.000 kr. Gavekortet kan bruges til hele middagen eller som et bidrag.</span>
             </div>
           </div>
 
           <div id="panel-dinner">
             <div class="field">
-              <span class="sub-label">How many guests?</span>
+              <span class="sub-label" data-i18n="guests.label">Hvor mange gæster?</span>
               <div class="guest-row">
-                <span>Guests</span>
+                <span data-i18n="guests.row">Gæster</span>
                 <div class="stepper">
-                  <button type="button" id="guests-dec" class="dec" aria-label="Fewer guests">−</button>
+                  <button type="button" id="guests-dec" class="dec" data-i18n-aria="guests.dec" aria-label="Færre gæster">−</button>
                   <strong id="guests-value">8</strong>
-                  <button type="button" id="guests-inc" class="inc" aria-label="More guests">+</button>
+                  <button type="button" id="guests-inc" class="inc" data-i18n-aria="guests.inc" aria-label="Flere gæster">+</button>
                 </div>
               </div>
             </div>
             <div class="field">
-              <span class="sub-label">Choose Style</span>
+              <span class="sub-label" data-i18n="style.label">Vælg stil</span>
               <div class="style-list" id="style-list"></div>
             </div>
           </div>
@@ -171,14 +187,14 @@
         <div class="card">
           <div class="step-title">
             <span class="step-num">2</span>
-            <h3>Who is the lucky one</h3>
+            <h3 data-i18n="step.2">Hvem er den heldige?</h3>
           </div>
           <div class="floating field">
-            <label for="recipient">Recipient Name</label>
+            <label for="recipient" data-i18n="form.recipient">Modtagerens navn</label>
             <input class="input" id="recipient" type="text" maxlength="80" autocomplete="name" placeholder="">
           </div>
           <div class="floating field">
-            <label for="message">Your personal message</label>
+            <label for="message" data-i18n="form.message">Din personlige hilsen</label>
             <textarea class="input" id="message" maxlength="40" placeholder=""></textarea>
             <div class="char-count" id="message-count">0/40</div>
           </div>
@@ -187,38 +203,38 @@
         <div class="card">
           <div class="step-title">
             <span class="step-num">3</span>
-            <h3>Final Information</h3>
+            <h3 data-i18n="step.3">Dine oplysninger</h3>
           </div>
           <div class="floating field">
-            <label for="buyer-name">Your Name</label>
+            <label for="buyer-name" data-i18n="form.buyerName">Dit navn</label>
             <input class="input" id="buyer-name" type="text" autocomplete="name">
           </div>
           <div class="floating field">
-            <label for="buyer-email">Your Email</label>
+            <label for="buyer-email" data-i18n="form.buyerEmail">Din e-mail</label>
             <input class="input" id="buyer-email" type="email" autocomplete="email">
           </div>
           <div class="floating field">
-            <label for="buyer-phone">Your Phone Number</label>
+            <label for="buyer-phone" data-i18n="form.buyerPhone">Dit telefonnummer</label>
             <input class="input" id="buyer-phone" type="tel" autocomplete="tel">
           </div>
           <div class="field">
-            <span class="sub-label">How should it arrive</span>
+            <span class="sub-label" data-i18n="delivery.label">Hvordan skal det leveres</span>
             <div class="delivery-grid">
               <label class="delivery-card is-selected">
                 <input type="radio" name="delivery" value="digital" checked>
                 <span class="delivery-icon" aria-hidden="true">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/></svg>
                 </span>
-                <h4>Digital</h4>
-                <p>We send you a PDF to print yourself</p>
+                <h4 data-i18n="delivery.digital.title">Digitalt</h4>
+                <p data-i18n="delivery.digital.body">Vi sender dig en PDF, du selv kan printe</p>
               </label>
               <label class="delivery-card">
                 <input type="radio" name="delivery" value="physical">
                 <span class="delivery-icon" aria-hidden="true">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 4l3 4H9l3-4z"/><path d="M5 8h14v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8z"/><path d="M12 8v13"/></svg>
                 </span>
-                <h4>Physical</h4>
-                <p>We reach out to you for delivery details. Shipping is free.</p>
+                <h4 data-i18n="delivery.physical.title">Fysisk</h4>
+                <p data-i18n="delivery.physical.body">Vi kontakter dig for at aftale levering. Fragt er gratis.</p>
               </label>
             </div>
           </div>
@@ -226,23 +242,23 @@
 
         <div class="pay-wrap">
           <button type="button" class="btn btn-dark btn-wide" id="pay-btn">
-            <span id="pay-label">Continue to payment</span>
+            <span id="pay-label" data-i18n="pay.continue">Fortsæt til betaling</span>
           </button>
           <div class="assurances">
-            <span class="tp"><span class="star">★</span> 5.0 Trustpilot</span>
-            <span>Never expires</span>
-            <span>Use with any chef</span>
+            <span class="tp"><span class="star">★</span> <span data-i18n="pay.trustpilot">5,0 Trustpilot</span></span>
+            <span data-i18n="pay.expires">Udløber aldrig</span>
+            <span data-i18n="pay.anyChef">Kan bruges hos alle kokke</span>
           </div>
         </div>
       </div>
 
       <aside class="preview-col" aria-live="polite">
-        <div class="preview-label">LIVE PREVIEW</div>
+        <div class="preview-label" data-i18n="preview.label">FORHÅNDSVISNING</div>
         <div class="gift-card">
           <div class="gc-top">
             <div>
               <div class="gc-logo"><img src="assets/img/logo_white.svg" alt="chefmade"></div>
-              <div class="gc-kicker">GIFT CARD</div>
+              <div class="gc-kicker" data-i18n="preview.kicker">GAVEKORT</div>
             </div>
             <img class="gc-leaf" src="assets/img/ginkgo.png" alt="">
           </div>
@@ -250,8 +266,8 @@
           <div class="gc-meta" id="preview-meta"></div>
           <div class="gc-bottom">
             <div>
-              <div class="gc-for-label">FOR</div>
-              <div class="gc-for-name" id="preview-name">Someone special</div>
+              <div class="gc-for-label" data-i18n="preview.for">TIL</div>
+              <div class="gc-for-name" id="preview-name">En særlig person</div>
             </div>
             <div class="gc-msg" id="preview-message" hidden></div>
           </div>
@@ -262,7 +278,7 @@
 
   <dialog id="pay-dialog">
     <div id="pay-dialog-body"></div>
-    <button type="button" class="btn btn-dark" id="pay-dialog-close">Close</button>
+    <button type="button" class="btn btn-dark" id="pay-dialog-close" data-i18n="dialog.close">Luk</button>
   </dialog>
 
   <footer class="site-footer">
@@ -272,7 +288,7 @@
       </a>
       <div class="footer-cols">
         <div class="footer-col">
-          <h4>Tag kontakt i dag</h4>
+          <h4 data-i18n="footer.contact">Tag kontakt i dag</h4>
           <ul>
             <li><a href="tel:+4572108435">+45 72108435</a></li>
             <li><a href="mailto:info@chefmade.dk">info@chefmade.dk</a></li>
@@ -285,30 +301,30 @@
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Inspiration</h4>
+          <h4 data-i18n="footer.inspiration">Inspiration</h4>
           <ul>
-            <li><a href="https://chefmade.dk/blog/chefmade-erhverv">Erhverv</a></li>
-            <li><a href="https://chefmade.dk/blog/mad-til-fodselsdag">Fødselsdag</a></li>
-            <li><a href="https://chefmade.dk/blog/bryllup">Bryllup</a></li>
-            <li><a href="https://chefmade.dk/blog/konfirmation">Konfirmation</a></li>
-            <li><a href="https://chefmade.dk/blog/social-dining">Social middag</a></li>
-            <li><a href="https://chefmade.dk/blog/paskefrokost">Påskemiddag</a></li>
+            <li><a href="https://chefmade.dk/blog/chefmade-erhverv" data-i18n="footer.erhverv">Erhverv</a></li>
+            <li><a href="https://chefmade.dk/blog/mad-til-fodselsdag" data-i18n="footer.birthday">Fødselsdag</a></li>
+            <li><a href="https://chefmade.dk/blog/bryllup" data-i18n="footer.wedding">Bryllup</a></li>
+            <li><a href="https://chefmade.dk/blog/konfirmation" data-i18n="footer.confirmation">Konfirmation</a></li>
+            <li><a href="https://chefmade.dk/blog/social-dining" data-i18n="footer.social">Social middag</a></li>
+            <li><a href="https://chefmade.dk/blog/paskefrokost" data-i18n="footer.easter">Påskemiddag</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>For partnere</h4>
+          <h4 data-i18n="footer.partners">For partnere</h4>
           <ul>
-            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScvIcBpb3Ur71UTCUILKPB5Z2dgU7etcDFHw41l5A6JSKHHfQ/viewform" target="_blank" rel="noopener noreferrer">Bliv Chefmade kok</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScvIcBpb3Ur71UTCUILKPB5Z2dgU7etcDFHw41l5A6JSKHHfQ/viewform" target="_blank" rel="noopener noreferrer" data-i18n="footer.becomeChef">Bliv Chefmade kok</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Genveje</h4>
+          <h4 data-i18n="footer.shortcuts">Genveje</h4>
           <ul>
-            <li><a href="https://chefmade.dk/private-dining">Restauranter &amp; Kokke</a></li>
-            <li><a href="https://chefmade.dk/lej-en-kok">Menuer</a></li>
+            <li><a href="https://chefmade.dk/private-dining" data-i18n="footer.restaurants">Restauranter &amp; Kokke</a></li>
+            <li><a href="https://chefmade.dk/lej-en-kok" data-i18n="footer.menus">Menuer</a></li>
             <li><a href="https://chefmade.dk/gavekort">Køb gavekort</a></li>
-            <li><a href="https://chefmade.dk/customer-ticket-list/">Support</a></li>
-            <li><a href="https://chefmade.dk/faq/">FAQ</a></li>
+            <li><a href="https://chefmade.dk/customer-ticket-list/" data-i18n="footer.support">Support</a></li>
+            <li><a href="https://chefmade.dk/faq/" data-i18n="footer.faq">FAQ</a></li>
           </ul>
         </div>
       </div>
@@ -326,9 +342,9 @@
       <div class="footer-legal">
         <p>&copy; Chefmade ApS <span data-year>2026</span></p>
         <div class="footer-legal-links">
-          <a href="https://chefmade.dk/terms">Betingelser</a>
-          <a href="https://chefmade.dk/privacy">Privatliv</a>
-          <a href="https://chefmade.dk/sitemap.xml">Sitemap</a>
+          <a href="https://chefmade.dk/terms" data-i18n="footer.terms">Betingelser</a>
+          <a href="https://chefmade.dk/privacy" data-i18n="footer.privacy">Privatliv</a>
+          <a href="https://chefmade.dk/sitemap.xml" data-i18n="footer.sitemap">Sitemap</a>
         </div>
       </div>
     </div>
@@ -338,6 +354,7 @@
       el.textContent = String(new Date().getFullYear());
     });
   </script>
+  <script src="js/i18n.js"></script>
   <script src="js/config.js"></script>
   <script src="js/pricing.js"></script>
   <script src="js/app.js"></script>

@@ -1,6 +1,8 @@
 (function () {
   const P = window.GavekortPricing;
   const cfg = window.GAVEKORT_CONFIG || {};
+  const I = window.GavekortI18n;
+  const t = (key, vars) => (I && I.t) ? I.t(key, vars) : key;
 
   const state = {
     path: "dinner", // "dinner" | "amount"
@@ -64,8 +66,8 @@
         <input type="radio" name="style" value="${s.id}" ${selected ? "checked" : ""}>
         <span class="style-name">${s.name}</span>
         <span class="style-price">
-          <span class="pp">${P.formatAmount(q.perPerson, "dkk")} pp</span>
-          <span class="tot">${P.formatAmount(q.total, "dkk")} total</span>
+          <span class="pp">${P.formatAmount(q.perPerson, "dkk")} ${t("style.pp")}</span>
+          <span class="tot">${P.formatAmount(q.total, "dkk")} ${t("style.total")}</span>
         </span>
       </label>`;
     }).join("");
@@ -96,7 +98,7 @@
 
   function renderPreview() {
     const q = currentQuote();
-    const name = state.recipient.trim() || "Someone special";
+    const name = state.recipient.trim() || t("preview.someone");
     els.previewName.textContent = name;
     const msg = state.message.trim();
     els.previewMessage.textContent = msg;
@@ -106,17 +108,18 @@
       els.previewAmount.textContent = P.formatAmount(q.total, "dkk");
       els.previewAmount.hidden = false;
       if (q.custom) {
-        els.previewMeta.textContent = "Gift voucher";
+        els.previewMeta.textContent = t("preview.voucher");
       } else {
-        els.previewMeta.textContent = `${styleName(q.styleId)} for ${q.guests} guest${q.guests === 1 ? "" : "s"}`;
+        const guestWord = q.guests === 1 ? t("preview.guestOne") : t("preview.guestMany");
+        els.previewMeta.textContent = t("preview.dinner", { style: styleName(q.styleId), count: q.guests, guestWord });
       }
       els.previewMeta.hidden = false;
-      els.payLabel.textContent = `Continue to payment · ${P.formatAmount(q.total, "dkk")}`;
+      els.payLabel.textContent = `${t("pay.continue")} · ${P.formatAmount(q.total, "dkk")}`;
       els.payBtn.disabled = false;
     } else {
       els.previewAmount.hidden = true;
       els.previewMeta.hidden = true;
-      els.payLabel.textContent = "Continue to payment";
+      els.payLabel.textContent = t("pay.continue");
       els.payBtn.disabled = state.path === "amount";
     }
 
@@ -213,13 +216,13 @@
   function goToPayment() {
     const q = currentQuote();
     if (!q || !q.total) {
-      openDialog("<p>Please choose a gift amount, or pick the number of guests and a style.</p>");
+      openDialog("<p>" + t("dialog.chooseAmount") + "</p>");
       return;
     }
     const min = cfg.minCustomAmountDkk || 0;
     const max = cfg.maxCustomAmountDkk || 0;
     if (state.path === "amount" && (q.total < min || (max && q.total > max))) {
-      openDialog(`<p>Please choose an amount between ${P.formatAmount(min, "dkk")} and ${P.formatAmount(max, "dkk")}.</p>`);
+      openDialog("<p>" + t("dialog.amountRange", { min: P.formatAmount(min, "dkk"), max: P.formatAmount(max, "dkk") }) + "</p>");
       return;
     }
 
@@ -228,18 +231,16 @@
 
     if (!link) {
       openDialog(`
-        <h3>Payment link not connected yet</h3>
-        <p>This preview is ready, but no Stripe <strong>test-mode</strong> Payment Link has been created. The Chefmade Stripe connector is currently live-only, and no live objects were created.</p>
-        <p>When a test Payment Link is available, this button will open it with the amount below already filled in. The buyer can still edit a pay-what-you-want amount, so the team should check the paid amount against the order.</p>
+        <h3>${t("dialog.noLinkTitle")}</h3>
+        <p>${t("dialog.noLinkBody")}</p>
         <dl class="summary">
           <dt>Amount</dt><dd>${P.formatAmount(q.total, "dkk")}</dd>
-          <dt>Type</dt><dd>${q.custom ? "Chosen amount" : `${styleName(q.styleId)} · ${q.guests} guests`}</dd>
+          <dt>Type</dt><dd>${q.custom ? t("path.amount.title") : `${styleName(q.styleId)} · ${q.guests} ${q.guests === 1 ? t("preview.guestOne") : t("preview.guestMany")}`}</dd>
           <dt>For</dt><dd>${state.recipient.trim() || "—"}</dd>
           <dt>Message</dt><dd>${state.message.trim() || "—"}</dd>
-          <dt>Delivery</dt><dd>${state.delivery === "physical" ? "Physical" : "Digital"}</dd>
+          <dt>Delivery</dt><dd>${state.delivery === "physical" ? t("delivery.physical.title") : t("delivery.digital.title")}</dd>
           <dt>Buyer</dt><dd>${state.buyerName || "—"} · ${email || "—"} · ${state.buyerPhone || "—"}</dd>
         </dl>
-        <p class="fine">Recipient, message and Digital/Physical will also be collected as Stripe custom fields on the Payment Link, once it exists.</p>
       `);
       return;
     }
@@ -248,6 +249,7 @@
     url.searchParams.set("prefilled_amount", String(Math.round(q.total * 100)));
     if (email) url.searchParams.set("prefilled_email", email);
     url.searchParams.set("client_reference_id", buildReference(q));
+    if (I && I.getLang() === "da") url.searchParams.set("locale", "da");
 
     const payload = collectOrderPayload(q);
     els.payBtn.disabled = true;
@@ -335,13 +337,21 @@
   }
 
 
+  if (I && I.onChange) {
+    I.onChange(() => {
+      renderStyles();
+      renderAmountChips();
+      renderPreview();
+    });
+  }
+
   bind();
   setPath("dinner");
   const params = new URLSearchParams(location.search);
   if (params.get("demo") === "1") {
     els.recipient.value = "Anna";
     state.recipient = "Anna";
-    els.message.value = "Happy 40th — let’s celebrate together";
+    els.message.value = t("demo.message");
     state.message = els.message.value;
     renderPreview();
   }
