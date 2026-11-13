@@ -144,7 +144,7 @@ h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.035em; line-height:
 }
 .hero-visual img {
   width: 100%;
-  max-width: 100%;
+  max-width: min(100%, 1212px); /* native width; never display above 1.5x (1818px) */
   height: auto;
   object-fit: contain;
   object-position: right bottom;
@@ -579,8 +579,8 @@ dialog .btn { margin-top: 8px; }
     gap: 16px 32px;
   }
   .hero-copy { padding-bottom: 36px; }
-  .hero-visual { margin: 0; max-width: none; width: 100%; }
-  .hero-visual img { width: 100%; max-width: none; margin: 0; object-position: right bottom; }
+  .hero-visual { margin: 0; max-width: none; width: 100%; justify-content: flex-end; }
+  .hero-visual img { width: 100%; max-width: min(100%, 1212px); margin: 0; object-position: right bottom; }
   .features { grid-template-columns: repeat(3, 1fr); padding: 48px 24px 80px; }
   .business-panel { grid-template-columns: 1fr 1fr; padding: 56px 48px; }
   .checkout-layout { display: grid; grid-template-columns: 1.05fr 0.85fr; align-items: start; }
