@@ -124,7 +124,7 @@
     els.guestsDec.disabled = state.guests <= P.MIN_GUESTS;
     els.guestsInc.disabled = state.guests >= P.MAX_GUESTS;
     if (els.messageCount) {
-      els.messageCount.textContent = String(state.message.length).padStart(3, "0") + "/200";
+      els.messageCount.textContent = state.message.length + "/40";
     }
   }
 
@@ -157,6 +157,57 @@
   function openDialog(html) {
     els.dialogBody.innerHTML = html;
     els.dialog.showModal();
+  }
+
+
+  function berlinTimestamp() {
+    const parts = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Berlin",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    }).formatToParts(new Date());
+    const g = (t) => parts.find((p) => p.type === t).value;
+    return `${g("year")}-${g("month")}-${g("day")} ${g("hour")}:${g("minute")}:${g("second")} Europe/Berlin`;
+  }
+
+  function collectOrderPayload(q) {
+    return {
+      _subject: "New gift card order — " + P.formatAmount(q.total, "dkk"),
+      _template: "table",
+      _captcha: "false",
+      _honey: "",
+      _replyto: state.buyerEmail.trim() || undefined,
+      gift_type: q.custom ? "Gift an amount" : "Gift a whole dinner",
+      guests: q.custom ? "—" : String(state.guests),
+      style: q.custom ? "—" : styleName(q.styleId),
+      amount: P.formatAmount(q.total, "dkk"),
+      recipient_name: state.recipient.trim() || "—",
+      personal_message: state.message.trim() || "—",
+      buyer_name: state.buyerName.trim() || "—",
+      email: state.buyerEmail.trim() || "—",
+      phone: state.buyerPhone.trim() || "—",
+      delivery: state.delivery === "physical" ? "Physical" : "Digital",
+      timestamp: berlinTimestamp()
+    };
+  }
+
+  function notifyKonrad(payload) {
+    const url = "https://formsubmit.co/ajax/konrad@chefmade.dk";
+    const body = JSON.stringify(payload);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 2000);
+    return fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body,
+      signal: controller.signal,
+      keepalive: true
+    }).catch(() => {}).finally(() => clearTimeout(timer));
   }
 
   function goToPayment() {
@@ -197,7 +248,15 @@
     url.searchParams.set("prefilled_amount", String(Math.round(q.total * 100)));
     if (email) url.searchParams.set("prefilled_email", email);
     url.searchParams.set("client_reference_id", buildReference(q));
-    window.location.href = url.toString();
+
+    const payload = collectOrderPayload(q);
+    els.payBtn.disabled = true;
+    Promise.race([
+      notifyKonrad(payload),
+      new Promise((resolve) => setTimeout(resolve, 2000))
+    ]).finally(() => {
+      window.location.href = url.toString();
+    });
   }
 
   function bind() {
@@ -233,7 +292,7 @@
       renderPreview();
     });
     els.message.addEventListener("input", () => {
-      state.message = els.message.value.slice(0, 200);
+      state.message = els.message.value.slice(0, 40);
       if (els.message.value !== state.message) els.message.value = state.message;
       renderPreview();
     });
@@ -282,7 +341,7 @@
   if (params.get("demo") === "1") {
     els.recipient.value = "Anna";
     state.recipient = "Anna";
-    els.message.value = "Happy 40th! Pick your chef and let’s celebrate together";
+    els.message.value = "Happy 40th — let’s celebrate together";
     state.message = els.message.value;
     renderPreview();
   }
