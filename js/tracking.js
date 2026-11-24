@@ -1,27 +1,86 @@
 /**
- * Tracking for gutschein.chefmade.de only.
+ * Tracking for the gift-card hosts only.
  *
  * The German and Danish gift sites share this repo and HTML. GTM, Consent
- * Mode and the banner must not run on gavekort.chefmade.dk (or any other host).
+ * Mode and the banner run only on gutschein.chefmade.de and
+ * gavekort.chefmade.dk — never on any other host.
  *
- * chefmade.de uses a custom cookie banner (CookieYes is only a leftover
- * preconnect, not the CMP) and cookie_consent = {analytics, marketing}.
- * This file mirrors that consent model and cookie shape, with Consent Mode
- * v2 defaults set before GTM loads. GTM-5F56QXJ6 is inserted in JS rather
- * than as a static noscript snippet, so the shared HTML cannot fire the
- * German container on the Danish host when JS is off.
+ * chefmade.de / chefmade.dk use a custom cookie banner (CookieYes is only a
+ * leftover preconnect, not the CMP) and cookie_consent = {analytics,
+ * marketing}. This file mirrors that consent model and cookie shape, with
+ * Consent Mode v2 defaults set before GTM loads. The container is inserted
+ * in JS rather than as a static noscript snippet, so the shared HTML cannot
+ * fire the wrong container when JS is off.
+ *
+ *   gutschein.chefmade.de  → GTM-5F56QXJ6, DE/EN banner, EUR
+ *   gavekort.chefmade.dk   → GTM-NB3Z824,  DA/EN banner, DKK
  */
 (function (global) {
-  var GTM_ID = "GTM-5F56QXJ6";
   var COOKIE_NAME = "cookie_consent";
-  var HOST = "gutschein.chefmade.de";
   var CALLBACK_MS = 800;
 
-  function isGutscheinHost() {
+  var EN_COPY = {
+    text: "We use cookies to improve your experience. Manage your settings below.",
+    accept: "Accept all",
+    reject: "Reject all",
+    manage: "Manage settings",
+    title: "Manage cookie settings",
+    intro: "Choose which types of cookies should be enabled.",
+    analytics: "Allow analytics cookies",
+    marketing: "Allow marketing cookies",
+    save: "Save settings",
+    cancel: "Cancel"
+  };
+
+  var SITES = {
+    "gutschein.chefmade.de": {
+      gtmId: "GTM-5F56QXJ6",
+      currency: "EUR",
+      itemName: "Chefmade Gutschein",
+      copy: {
+        en: EN_COPY,
+        de: {
+          text: "Wir verwenden Cookies, um deine Erfahrung zu verbessern. Verwalte deine Einstellungen unten.",
+          accept: "Alle akzeptieren",
+          reject: "Alle ablehnen",
+          manage: "Einstellungen verwalten",
+          title: "Cookie-Einstellungen verwalten",
+          intro: "Wähle aus, welche Arten von Cookies aktiviert werden sollen.",
+          analytics: "Analytics-Cookies erlauben",
+          marketing: "Marketing-Cookies erlauben",
+          save: "Einstellungen speichern",
+          cancel: "Abbrechen"
+        }
+      }
+    },
+    "gavekort.chefmade.dk": {
+      gtmId: "GTM-NB3Z824",
+      currency: "DKK",
+      itemName: "Chefmade Gavekort",
+      copy: {
+        en: EN_COPY,
+        da: {
+          text: "Vi bruger cookies for at forbedre din oplevelse. Administrer dine indstillinger nedenfor.",
+          accept: "Accepter alle",
+          reject: "Afvis alle",
+          manage: "Administrer indstillinger",
+          title: "Administrer cookieindstillinger",
+          intro: "Vælg, hvilke typer cookies der skal aktiveres.",
+          analytics: "Tillad analytics-cookies",
+          marketing: "Tillad marketing-cookies",
+          save: "Gem indstillinger",
+          cancel: "Annuller"
+        }
+      }
+    }
+  };
+
+  function siteConfig() {
     try {
-      return (global.location && global.location.hostname || "").toLowerCase() === HOST;
+      var host = (global.location && global.location.hostname || "").toLowerCase();
+      return SITES[host] || null;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 
@@ -29,13 +88,16 @@
     return Promise.resolve();
   }
 
-  if (!isGutscheinHost()) {
+  var site = siteConfig();
+  if (!site) {
     global.GavekortTracking = {
       enabled: false,
       beginCheckout: beginCheckoutNoop
     };
     return;
   }
+
+  var GTM_ID = site.gtmId;
 
   global.dataLayer = global.dataLayer || [];
   function gtag() {
@@ -122,33 +184,11 @@
   })(global, document, "script", "dataLayer", GTM_ID);
 
   function copy() {
-    var lang = (document.documentElement.lang || "de").toLowerCase();
-    if (lang.indexOf("en") === 0) {
-      return {
-        text: "We use cookies to improve your experience. Manage your settings below.",
-        accept: "Accept all",
-        reject: "Reject all",
-        manage: "Manage settings",
-        title: "Manage cookie settings",
-        intro: "Choose which types of cookies should be enabled.",
-        analytics: "Allow analytics cookies",
-        marketing: "Allow marketing cookies",
-        save: "Save settings",
-        cancel: "Cancel"
-      };
-    }
-    return {
-      text: "Wir verwenden Cookies, um deine Erfahrung zu verbessern. Verwalte deine Einstellungen unten.",
-      accept: "Alle akzeptieren",
-      reject: "Alle ablehnen",
-      manage: "Einstellungen verwalten",
-      title: "Cookie-Einstellungen verwalten",
-      intro: "Wähle aus, welche Arten von Cookies aktiviert werden sollen.",
-      analytics: "Analytics-Cookies erlauben",
-      marketing: "Marketing-Cookies erlauben",
-      save: "Einstellungen speichern",
-      cancel: "Abbrechen"
-    };
+    var lang = (document.documentElement.lang || "").toLowerCase();
+    if (lang.indexOf("en") === 0 && site.copy.en) return site.copy.en;
+    if (lang.indexOf("da") === 0 && site.copy.da) return site.copy.da;
+    if (lang.indexOf("de") === 0 && site.copy.de) return site.copy.de;
+    return site.copy.da || site.copy.de || site.copy.en;
   }
 
   function injectStyles() {
@@ -266,11 +306,11 @@
         global.dataLayer = global.dataLayer || [];
         global.dataLayer.push({
           event: "begin_checkout",
-          currency: "EUR",
+          currency: site.currency,
           value: value,
           items: [
             {
-              item_name: "Chefmade Gutschein",
+              item_name: site.itemName,
               price: price,
               quantity: 1
             }
