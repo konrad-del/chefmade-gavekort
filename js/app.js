@@ -261,10 +261,14 @@
 
     const payload = collectOrderPayload(q);
     els.payBtn.disabled = true;
-    Promise.race([
+    const notifyDone = Promise.race([
       notifyKonrad(payload),
       new Promise((resolve) => setTimeout(resolve, 2000))
-    ]).finally(() => {
+    ]);
+    const trackingDone = (window.GavekortTracking && typeof window.GavekortTracking.beginCheckout === "function")
+      ? window.GavekortTracking.beginCheckout({ value: q.total, price: q.total })
+      : Promise.resolve();
+    Promise.all([notifyDone, trackingDone]).finally(() => {
       window.location.href = url.toString();
     });
   }
